@@ -119,3 +119,27 @@ searchInput.addEventListener("input", function () {
     }
   });
 });
+
+
+// ===== الترتيب =====
+const sortSelect = document.getElementById("sort");
+
+sortSelect.addEventListener("change", function () {
+  const choice = sortSelect.value;
+  const cards = Array.from(productCarts);
+
+  cards.sort(function (a, b) {
+    const priceA = Number(a.querySelector("button").dataset.price);
+    const priceB = Number(b.querySelector("button").dataset.price);
+    const idA = Number(a.querySelector("button").dataset.id);
+    const idB = Number(b.querySelector("button").dataset.id);
+
+    if (choice === "low") return priceA - priceB;
+    if (choice === "high") return priceB - priceA;
+    return idA - idB;
+  });
+
+  cards.forEach(function (card) {
+    productList.appendChild(card);
+  });
+});
