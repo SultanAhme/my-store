@@ -103,3 +103,19 @@ addButtons.forEach(function(btn){
 
 
 
+// ===== البحث =====
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", function () {
+    const word = searchInput.value;
+
+  productCarts.forEach(function (card) {
+    const name = card.querySelector("h3").textContent;
+
+    if (name.includes(word)) {
+      card.hidden = false;
+    } else {
+      card.hidden = true;
+    }
+  });
+});
