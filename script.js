@@ -25,23 +25,23 @@ products.forEach(function (product) {
 });
 
 
-    
+
 
 // ===== الدارك مود =====
 
 const themeBtn1 = document.getElementById("theme-btn");
 
-themeBtn1.addEventListener("click", function(){
-    document.body.classList.toggle("dark")
-    
+themeBtn1.addEventListener("click", function () {
+  document.body.classList.toggle("dark")
 
-    if (document.body.classList.contains("dark")){
-        themeBtn1.textContent ='☀️';
-        localStorage.setItem("theme","dark");
-    }else{
-        themeBtn1.textContent ='🌙'
-        localStorage.setItem("theme","light");
-    }
+
+  if (document.body.classList.contains("dark")) {
+    themeBtn1.textContent = '☀️';
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeBtn1.textContent = '🌙'
+    localStorage.setItem("theme", "light");
+  }
 });
 
 
@@ -54,23 +54,23 @@ if (localStorage.getItem("theme") === "dark") {
 const buttons = document.querySelectorAll(".filter-btn");
 const productCarts = document.querySelectorAll(".product");
 
-buttons.forEach(function (btn){
-    btn.addEventListener("click", function(){
+buttons.forEach(function (btn) {
+  btn.addEventListener("click", function () {
 
-        const filter=btn.dataset.filter;
-        buttons.forEach(function (b){
-            b.classList.remove("active")
-        })
-        btn.classList.add("active");
+    const filter = btn.dataset.filter;
+    buttons.forEach(function (b) {
+      b.classList.remove("active")
+    })
+    btn.classList.add("active");
 
-productCarts.forEach(function(product){
-    if (filter === "all" || product.dataset.category === filter){
+    productCarts.forEach(function (product) {
+      if (filter === "all" || product.dataset.category === filter) {
         product.hidden = false;
-    }else{
+      } else {
         product.hidden = true;
-    }
-});
+      }
     });
+  });
 
 });
 
@@ -85,29 +85,52 @@ const cartTotal = document.getElementById("cart-total");
 const cartList = document.getElementById("cart-list");
 let total = 0;
 let count = 0;
+let cart = [];
+function renderCart() {
+  cartList.innerHTML = "";
+  count = 0;
+  total = 0;
 
-addButtons.forEach(function(btn){
-    btn.addEventListener("click", function(){
-        count +=1;
-        cartCount.textContent = "🛒" + count;
+  cart.forEach(function (item) {
+    cartList.innerHTML += `<li>
+      ${item.name} × ${item.qty} = ${item.price * item.qty} ريال
+      <button class="plus" data-id="${item.id}">+</button>
+      <button class="minus" data-id="${item.id}">−</button>
+    </li>`;
 
-        total += Number(btn.dataset.price);
-        cartTotal.textContent = total + " ريال";
+    count += item.qty;
+    total += item.price * item.qty;
+  });
 
-        const name = btn.dataset.name;
-        cartList.innerHTML += "<li>" + name + " - " + btn.dataset.price + "ريال </li>"
+  cartCount.textContent = "🛒" + count;
+  cartTotal.textContent = total + " ريال";
+}
+addButtons.forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    const id = Number(btn.dataset.id);
+    const product = products.find(function (p) {
+      return p.id === id;
     });
+    const item = cart.find(function (c) {
+      return c.id === id;
+    });
+
+    if (item) {
+      item.qty += 1;
+    } else {
+      cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+    }
+
+    renderCart();
+  });
 });
-
-
-
 
 
 // ===== البحث =====
 const searchInput = document.getElementById("search");
 
 searchInput.addEventListener("input", function () {
-    const word = searchInput.value;
+  const word = searchInput.value;
 
   productCarts.forEach(function (card) {
     const name = card.querySelector("h3").textContent;
@@ -120,6 +143,28 @@ searchInput.addEventListener("input", function () {
   });
 });
 
+cartList.addEventListener("click", function (e) {
+  const id = Number(e.target.dataset.id);
+  const item = cart.find(function (c) {
+    return c.id === id;
+  });
+  if (!item) return;
+
+  if (e.target.classList.contains("plus")) {
+    item.qty += 1;
+  }
+  if (e.target.classList.contains("minus")) {
+    item.qty -= 1;
+  }
+
+  if (item.qty === 0) {
+    cart = cart.filter(function (c) {
+      return c.id !== id;
+    });
+  }
+
+  renderCart();
+});
 
 // ===== الترتيب =====
 const sortSelect = document.getElementById("sort");
