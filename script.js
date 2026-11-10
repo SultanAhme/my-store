@@ -85,7 +85,8 @@ const cartTotal = document.getElementById("cart-total");
 const cartList = document.getElementById("cart-list");
 let total = 0;
 let count = 0;
-let cart = [];
+let discount = 0;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 function renderCart() {
   cartList.innerHTML = "";
   count = 0;
@@ -103,7 +104,9 @@ function renderCart() {
   });
 
   cartCount.textContent = "🛒" + count;
-  cartTotal.textContent = total + " ريال";
+  const finalTotal = total - total * discount;
+  cartTotal.textContent = finalTotal + " ريال";
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 addButtons.forEach(function (btn) {
   btn.addEventListener("click", function () {
@@ -125,24 +128,6 @@ addButtons.forEach(function (btn) {
   });
 });
 
-
-// ===== البحث =====
-const searchInput = document.getElementById("search");
-
-searchInput.addEventListener("input", function () {
-  const word = searchInput.value;
-
-  productCarts.forEach(function (card) {
-    const name = card.querySelector("h3").textContent;
-
-    if (name.includes(word)) {
-      card.hidden = false;
-    } else {
-      card.hidden = true;
-    }
-  });
-});
-
 cartList.addEventListener("click", function (e) {
   const id = Number(e.target.dataset.id);
   const item = cart.find(function (c) {
@@ -161,10 +146,47 @@ cartList.addEventListener("click", function (e) {
     cart = cart.filter(function (c) {
       return c.id !== id;
     });
+    renderCart();
   }
-
-  renderCart();
 });
+renderCart();
+
+
+// ===== كود الخصم =====
+const couponInput = document.getElementById("coupon-input");
+const couponBtn = document.getElementById("coupon-btn");
+const couponMsg = document.getElementById("coupon-msg");
+
+couponBtn.addEventListener("click", function () {
+  const code = couponInput.value.trim().toUpperCase();
+
+  if (code === "SULTAN10") {
+    discount = 0.1;
+    couponMsg.textContent = "تم تطبيق خصم 10% ✅";
+  } else {
+    discount = 0;
+    couponMsg.textContent = "الكود غير صحيح ❌";
+  }
+    renderCart();
+});
+
+// ===== البحث =====
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", function () {
+  const word = searchInput.value;
+
+  productCarts.forEach(function (card) {
+    const name = card.querySelector("h3").textContent;
+
+    if (name.includes(word)) {
+      card.hidden = false;
+    } else {
+      card.hidden = true;
+    }
+  });
+});
+
 
 // ===== الترتيب =====
 const sortSelect = document.getElementById("sort");
