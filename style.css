@@ -38,6 +38,7 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+
 /* الشعار */
 .logo {
   display: flex;
@@ -104,6 +105,7 @@ nav a:hover {
   color: var(--text);
   box-shadow: var(--shadow);
 }
+
 .header-action {
   display: flex;
   align-items: center;
@@ -206,6 +208,7 @@ main h2 {
 .product h3 {
   margin-top: 12px;
 }
+
 .product h3 a {
   color: var(--text);
   text-decoration: none;
@@ -214,6 +217,7 @@ main h2 {
 .product h3 a:hover {
   color: var(--accent);
 }
+
 .product p {
   color: var(--muted);
   font-size: 14px;
@@ -310,12 +314,13 @@ footer a:hover {
   
 }*/
 body.dark {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #f1f5f9;
-  --primary: #a6b1e1;
+  --bg: #0b1020;
+  --card: #151b2e;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --primary: #5b63b7;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --border: #334155;
+  --border: #263049;
   --accent: #8b85ff;
 }
 
@@ -348,6 +353,7 @@ body.dark {
 body.dark .theme-icon {
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/%3E%3C/svg%3E");
 }
+
 /* البحث والترتيب */
 .toolbar {
   display: flex;
@@ -361,6 +367,7 @@ body.dark .theme-icon {
   border-radius: 20px;
   box-shadow: var(--shadow);
 }
+
 #search,
 #sort {
   padding: 10px 16px;
@@ -660,6 +667,7 @@ body.dark .theme-icon {
     grid-template-columns: 1fr;
   }
 }
+
 /*بشيك عليها لجل افهمها*/
 #product-details h1+p {
   font-size: 22px;
@@ -685,6 +693,7 @@ body.dark .theme-icon {
 /* البانر الترحيبي */
 .hero {
   max-width: 1100px;
+  width: calc(100% - 32px);
   margin: 32px auto;
   padding: 64px 32px;
   text-align: center;

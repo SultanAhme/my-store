@@ -23,7 +23,7 @@ console.log(product);
 const details = document.getElementById("product-details");
 if (product) {
   details.innerHTML = `
-  ... سطر الصورة ...
+    <img src="${product.image}" alt="${product.name}">
   <div class="info">
   <h1>${product.name}</h1>
   <p>${product.price} ريال</p>
