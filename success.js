@@ -1,3 +1,7 @@
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
+
 const order = JSON.parse(localStorage.getItem("lastOrder"));
 const successMessage = document.getElementById("success-message");
 

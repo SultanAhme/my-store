@@ -1,3 +1,7 @@
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
+
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 const orderSummary = document.getElementById("order-summary");
 const orderTotal = document.getElementById("order-total");
@@ -7,9 +11,14 @@ cart.forEach(function (item) {
     orderSummary.innerHTML += `<li>${item.name} × ${item.qty} = ${item.price * item.qty} ريال</li>`;
     total += item.price * item.qty;
 });
-
+const discount = Number(localStorage.getItem("discount")) || 0;
+total = total - total * discount;
 orderTotal.textContent = "المجموع: " + total + " ريال";
-
+if (cart.length === 0) {
+    orderSummary.innerHTML = "<li>سلتك فاضية 🛒</li>";
+    orderTotal.textContent = "";
+    document.getElementById("checkout-form").style.display = "none";
+}
 const form = document.getElementById("checkout-form");
 
 form.addEventListener("submit", function (event) {
@@ -29,7 +38,7 @@ form.addEventListener("submit", function (event) {
     }
     document.getElementById("phone-error").textContent = "";
 
-    if (phone.length !== 10 || !phone.startsWith("05")) {
+      if (phone.length !== 10 || !phone.startsWith("05") || isNaN(phone)) {
         document.getElementById("phone-error").textContent = "الجوال لازم 10 أرقام ويبدأ بـ 05";
         isValid = false;
     }
@@ -53,17 +62,18 @@ form.addEventListener("submit", function (event) {
     }
     const orderNumber = Math.floor(Math.random() * 90000) + 10000;
 
-   const order = {
-    number: orderNumber,
-    name: name,
-    phone: phone,
-    city: city,
-    address: address,
-    total: total
-  };
+    const order = {
+        number: orderNumber,
+        name: name,
+        phone: phone,
+        city: city,
+        address: address,
+        total: total
+    };
 
     localStorage.setItem("lastOrder", JSON.stringify(order));
     localStorage.removeItem("cart");
+    localStorage.removeItem("discount");
 
     window.location.href = "success.html";
 });

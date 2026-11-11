@@ -98,6 +98,7 @@ function renderCart() {
   const finalTotal = total - total * discount;
   cartTotal.textContent = finalTotal + " ريال";
   localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("discount", discount);
   const checkoutBtn = document.getElementById("checkout-btn");
 if (cart.length === 0) {
   checkoutBtn.style.display = "none";
@@ -143,8 +144,8 @@ cartList.addEventListener("click", function (e) {
     cart = cart.filter(function (c) {
       return c.id !== id;
     });
-    renderCart();
   }
+  renderCart();
 });
 renderCart();
 

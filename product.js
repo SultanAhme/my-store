@@ -1,3 +1,7 @@
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
+
 console.log("صفحة المنتج شغالة ✅");
 const params = new URLSearchParams(location.search);
 const id = Number(params.get("id"));
