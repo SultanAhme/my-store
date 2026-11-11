@@ -454,7 +454,7 @@ body.dark .theme-icon {
   border: none;
   border-radius: 50%;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -479,7 +479,7 @@ body.dark .theme-icon {
   border: none;
   border-radius: 10px;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
   font-family: inherit;
   font-weight: bold;
   cursor: pointer;
@@ -494,7 +494,7 @@ body.dark .theme-icon {
   padding: 12px 32px;
   border-radius: 10px;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
   text-decoration: none;
   font-weight: bold;
 }
@@ -550,7 +550,7 @@ body.dark .theme-icon {
   border: none;
   border-radius: 10px;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
   font-family: inherit;
   font-size: 16px;
   font-weight: bold;
@@ -628,7 +628,7 @@ body.dark .theme-icon {
   padding: 12px 32px;
   border-radius: 10px;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
 }
 
 
@@ -683,7 +683,7 @@ body.dark .theme-icon {
   border: none;
   border-radius: 10px;
   background: var(--primary);
-  color: var(--card);
+  color: #fff;
   font-family: inherit;
   font-size: 16px;
   font-weight: bold;
@@ -727,4 +727,15 @@ body.dark .theme-icon {
 
 .hero-btn:hover {
   transform: scale(1.05);
+}
+
+
+/* كلام الأزرار أبيض دايم بالوضع الداكن */
+body.dark .minus,
+body.dark #coupon-btn,
+body.dark #checkout-btn,
+body.dark #checkout-form button,
+body.dark .success a,
+body.dark #add-btn {
+  color: #fff;
 }
