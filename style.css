@@ -191,6 +191,24 @@ body.dark {
     font-size: 22px;
     cursor: pointer;
 }
+/* البحث والترتيب */
+#search,
+#sort {
+  padding: 10px 16px;
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+#search {
+  width: 100%;
+  max-width: 400px;
+  margin-inline-end: 8px;
+}
 
 .filter{
   display: flex;
@@ -224,11 +242,270 @@ body.dark {
   border-top: 4px solid var(--primary);
 }
 
+/* سطور السلة */
+#cart-list {
+  list-style: none;
+  margin: 16px 0;
+}
 
+#cart-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.plus,
+.minus {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--card);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.plus {
+  margin-inline-start: auto;
+}
+
+/* سطور السلة */
+#cart-list {
+  list-style: none;
+  margin: 16px 0;
+}
+
+#cart-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.plus,
+.minus {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--card);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.plus {
+  margin-inline-start: auto;
+}
+
+/* الكوبون وإتمام الطلب */
+#coupon-input {
+  padding: 10px 14px;
+  border: 1.5px solid var(--primary);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+}
+
+#coupon-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--card);
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#coupon-msg {
+  margin: 8px 0 16px;
+  font-size: 14px;
+}
+
+#checkout-btn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--card);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#checkout-btn:hover {
+  opacity: 0.9;
+}
 /*اخطاء تعبية الخانات */
 
 .error {
   color: red;
   display: block;
   font-size: 14px;
+
+}
+
+/* صفحة الدفع: الفورم */
+#checkout-form {
+  max-width: 500px;
+  background: var(--card);
+  padding: 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#checkout-form label {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+#checkout-form input {
+  padding: 10px 14px;
+  border: 1.5px solid rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+}
+
+#checkout-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+#checkout-form button {
+  margin-top: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--card);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* إطار الصفحات الداخلية (الدفع والنجاح) */
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.page h1 {
+  margin: 16px 0;
+}
+
+.page h2 {
+  margin: 24px 0 12px;
+}
+
+.page a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+/* ملخص الطلب */
+#order-summary {
+  list-style: none;
+  background: var(--card);
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+#order-summary li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+#order-summary li:last-child {
+  border-bottom: none;
+}
+
+#order-total {
+  margin: 16px 0 24px;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+
+/* صفحة النجاح */
+.success {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.success h1 {
+  font-size: 32px;
+}
+
+#success-message {
+  background: var(--card);
+  padding: 24px;
+  margin: 24px 0;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.success a {
+  display: inline-block;
+  padding: 12px 32px;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--card);
+}
+
+
+/* صفحة تفاصيل المنتج */
+#product-details {
+  max-width: 500px;
+  width: calc(100% - 32px);
+  margin: 40px auto;
+  padding: 24px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+#product-details img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+#product-details h1 + p {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--primary);
+  margin: 8px 0;
+}
+
+#add-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--card);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
