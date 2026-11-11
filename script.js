@@ -18,28 +18,6 @@ products.forEach(function (product) {
 
 
 
-// ===== الدارك مود =====
-
-const themeBtn1 = document.getElementById("theme-btn");
-
-themeBtn1.addEventListener("click", function () {
-  document.body.classList.toggle("dark")
-
-
-  if (document.body.classList.contains("dark")) {
-    themeBtn1.textContent = '☀️';
-    localStorage.setItem("theme", "dark");
-  } else {
-    themeBtn1.textContent = '🌙'
-    localStorage.setItem("theme", "light");
-  }
-});
-
-
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-  themeBtn1.textContent = '☀️';
-}
 
 // ===== لون الازرار  =====
 const buttons = document.querySelectorAll(".filter-btn");

@@ -1,6 +1,4 @@
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-}
+
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 const orderSummary = document.getElementById("order-summary");

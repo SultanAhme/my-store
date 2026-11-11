@@ -13,14 +13,17 @@
 <body>
 
   <header>
-    <h1>متجري</h1>
+    <a href="index.html" class="logo">
+      <span class="logo-icon">ح</span>
+      <span class="logo-text">حلول<small>للتقنية</small></span>
+    </a>
     <nav>
       <a href="index.html">الرئيسية</a>
       <a href="index.html#products">المنتجات</a>
       <a href="#">تواصل أجتماعي</a>
     </nav>
     <div class="header-action">
-      <button id="theme-btn">🌙</button>
+      <button id="theme-btn" aria-label="تبديل الوضع"><span class="theme-icon"></span></button>
       <span id="cart-count">🛒 0</span>
       <span id="cart-total">0 ريال</span>
       <a href="checkout.html" id="checkout-btn">إتمام الطلب</a>
@@ -29,6 +32,7 @@
 
 
   <div id="product-details"></div>
+  <script src="theme.js"></script>
   <script src="products.js"></script>
   <script src="product.js"></script>
 
