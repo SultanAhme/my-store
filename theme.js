@@ -153,3 +153,59 @@ if (couponBtn) {
     updateBag(); // نحدّث المجموع بالخصم الجديد
   });
 }
+
+// ===============================================
+// 5) قسم الحساب داخل الحقيبة
+// ===============================================
+// وظيفته: يغير روابط "تسجيل الدخول / الدخول كزائر" حسب حالة الزبون
+// لو مسجل دخول: "أهلاً الاسم" + تسجيل الخروج
+// لو مو مسجل: رابط صفحة الدخول + رابط الدفع كزائر
+// الصندوق .bag-account موجود بهيدر كل الصفحات الأربع
+function updateAccount() {
+  // 5.1) نمسك صندوق الحساب، ولو الصفحة ما فيها حقيبة نوقف
+  const box = document.querySelector('.bag-account');
+  if (!box) return;
+
+  // 5.2) نقرا بيانات الزبون اللي حفظها login.js بعد تسجيل الدخول
+  // JSON.parse: يرجع النص المحفوظ لـ object عشان نقرا منه user.name
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user) {
+    // 5.3) الزبون مسجل دخول: نحط الترحيب ورابط الخروج
+    box.innerHTML = `
+      <p class="bag-hello"></p>
+      <a href="#" id="logout-link">تسجيل الخروج</a>
+    `;
+    // نحط الاسم بـ textContent مو داخل innerHTML
+    // ليش؟ لو أحد سمّى نفسه كود HTML أو JavaScript، textContent يعرضه ككلام عادي وما يشغّله
+    // وهذي حماية من هجوم اسمه XSS
+    box.querySelector('.bag-hello').textContent = 'أهلاً ' + user.name + ' 👋';
+
+    // 5.4) لما يضغط "تسجيل الخروج"
+    document.getElementById('logout-link').addEventListener('click', function (event) {
+      event.preventDefault();
+      // نقول للسيرفر يلغي الكرت من دفتر الجلسات (الشباك /api/logout نسويه الخطوة الجاية)
+      // ونرسل الكرت بالرأس عشان السيرفر يعرف أي كرت يلغي
+      fetch('/api/logout', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+      }).finally(function () {
+        // finally: تشتغل سواء نجح الطلب أو فشل
+        // لأن الزبون طلب يطلع، فلازم نطلعه من المتصفح بكل الأحوال
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // نحدّث الصفحة عشان الحقيبة ترجع تعرض "تسجيل الدخول"
+        window.location.reload();
+      });
+    });
+  } else {
+    // 5.5) الزبون مو مسجل: نرجع الروابط بس هالمرة تودّي لصفحات حقيقية
+    box.innerHTML = `
+      <a href="login.html">تسجيل الدخول</a>
+      <a href="checkout.html">الدخول كزائر</a>
+    `;
+  }
+}
+
+// 5.6) نشغّل الدالة أول ما تفتح أي صفحة
+updateAccount();

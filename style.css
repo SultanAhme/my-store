@@ -678,7 +678,7 @@ body.dark .theme-icon {
 }
 
 /* صفحة الدفع: الفورم */
-#checkout-form {
+.form-box {
   max-width: 500px;
   background: var(--card);
   padding: 24px;
@@ -689,12 +689,12 @@ body.dark .theme-icon {
   gap: 6px;
 }
 
-#checkout-form label {
+.form-box label {
   font-weight: bold;
   margin-top: 8px;
 }
 
-#checkout-form input {
+.form-box input {
   padding: 10px 14px;
   border: 1.5px solid rgba(128, 128, 128, 0.3);
   border-radius: 10px;
@@ -704,12 +704,12 @@ body.dark .theme-icon {
   font-size: 15px;
 }
 
-#checkout-form input:focus {
+.form-box input:focus {
   outline: none;
   border-color: var(--primary);
 }
 
-#checkout-form button {
+.form-box button {
   margin-top: 16px;
   padding: 12px;
   border: none;
@@ -721,7 +721,18 @@ body.dark .theme-icon {
   font-weight: bold;
   cursor: pointer;
 }
+/* صفحة الدخول: سطر "ما عندك حساب؟ سجّل الحين" تحت الزر */
+.switch-text {
+  text-align: center;   /* بالنص */
+  margin-top: 8px;      /* مسافة بسيطة عن الزر */
+  font-size: 14px;      /* أصغر من الكلام العادي */
+}
 
+/* رابط التبديل بلون الموقع الأساسي وبخط عريض عشان يبان إنه ينضغط */
+.switch-text a {
+  color: var(--primary);
+  font-weight: bold;
+}
 /* إطار الصفحات الداخلية (الدفع والنجاح) */
 .page {
   max-width: 600px;
@@ -899,7 +910,7 @@ body.dark .theme-icon {
 body.dark .minus,
 body.dark #coupon-btn,
 body.dark #checkout-btn,
-body.dark #checkout-form button,
+body.dark .form-box button,
 body.dark .success a,
 body.dark #add-btn {
   color: #fff;

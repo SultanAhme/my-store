@@ -19,7 +19,7 @@ if (cart.length === 0) {
 }
 const form = document.getElementById("checkout-form");
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", async function (event) {
     event.preventDefault();
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
@@ -58,20 +58,67 @@ form.addEventListener("submit", function (event) {
     if (!isValid) {
         return;
     }
-    const orderNumber = Math.floor(Math.random() * 90000) + 10000;
+ 
 
-    const order = {
-        number: orderNumber,
-        name: name,
-        phone: phone,
-        city: city,
-        address: address,
-        total: total
-    };
+    // ===============================================
+    // إرسال الطلب للسيرفر بدل حفظه بالمتصفح بس
+    // ===============================================
 
-    localStorage.setItem("lastOrder", JSON.stringify(order));
-    localStorage.removeItem("cart");
-    localStorage.removeItem("discount");
+    // 1) نجهز "رأس" الطلب: نقول للسيرفر إن البيانات JSON
+    const headers = { "Content-Type": "application/json" };
 
-    window.location.href = "success.html";
+    // 2) لو الزبون مسجل دخول، نرسل كرته عشان السيرفر يربط الطلب بحسابه
+    // ولو زائر ما فيه كرت، فيوصل الطلب بدون صاحب (وهذا عادي)
+    const token = localStorage.getItem("token");
+    if (token) {
+        headers["Authorization"] = "Bearer " + token;
+    }
+
+    try {
+        // 3) نرسل الطلب لشباك /api/orders بالسيرفر
+        // cart: منتجات السلة اللي قريناها من localStorage بأول الملف
+        // total: المجموع بعد الخصم اللي حسبناه فوق
+        const res = await fetch("/api/orders", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+                name: name,
+                phone: phone,
+                city: city,
+                address: address,
+                items: cart,
+                total: total
+            })
+        });
+        const data = await res.json();
+
+        // 4) لو السيرفر رفض الطلب (مثلاً بيانات ناقصة) نعرض السبب ونوقف
+        if (!res.ok) {
+            alert(data.error);
+            return;
+        }
+
+        // 5) نجح: نحفظ ملخص الطلب برقمه الحقيقي من القاعدة
+        // صفحة النجاح (success.js) تقرا lastOrder وتعرض رقم الطلب منه
+        const order = {
+            number: data.orderId,
+            name: name,
+            phone: phone,
+            city: city,
+            address: address,
+            total: total
+        };
+        localStorage.setItem("lastOrder", JSON.stringify(order));
+
+        // 6) نفضّي السلة والخصم لأن الطلب خلص
+        localStorage.removeItem("cart");
+        localStorage.removeItem("discount");
+
+        // 7) نروح لصفحة النجاح
+        window.location.href = "success.html";
+
+    } catch (error) {
+        // نوصل هنا لو السيرفر طافي أو ما قدرنا نوصله
+        alert("ما قدرنا نرسل طلبك، تأكد إن السيرفر شغال وجرب مرة ثانية");
+    }
 });
