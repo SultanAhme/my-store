@@ -22,7 +22,29 @@
         </nav>
         <div class="header-action">
             <button id="theme-btn" aria-label="تبديل الوضع"><span class="theme-icon"></span></button>
+            <div class="bag">
+                <button id="bag-btn" aria-label="السلة">
+                    <span class="bag-icon"></span>
+                    <span id="cart-count">0</span>
+                </button>
+                <div class="bag-panel" id="bag-panel">
+                    <h4>سلتك</h4>
+                    <ul id="bag-list"></ul>
+                    <div class="bag-coupon">
+                        <input type="text" id="coupon-input" placeholder="كود خصم">
+                        <button id="coupon-btn">تطبيق</button>
+                        <p id="coupon-msg"></p>
+                    </div>
+                    <p class="bag-total">المجموع: <span id="cart-total">0 ريال</span></p>
+                    <a href="checkout.html" class="bag-checkout">إتمام الطلب</a>
+                    <div class="bag-account">
+                        <a href="#">تسجيل الدخول</a>
+                        <a href="#">الدخول كزائر</a>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </header>
     <main class="page success">
         <h1>تم الطلب بنجاح 🎉</h1>
