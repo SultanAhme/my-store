@@ -44,150 +44,42 @@ buttons.forEach(function (btn) {
 });
 
 
+// =====================================================
+// السلة: زر "أضف للسلة" في الصفحة الرئيسية
+// السلة محفوظة في localStorage (مثل دفتر مشترك بين كل الصفحات)
+// كل ضغطة: نقرا الدفتر ← نعدّل ← نحفظ ← نحدّث الحقيبة اللي فوق
+// =====================================================
 
-
-// ===== السلة =====
-
-const cartCount = document.getElementById("cart-count");
+// نمسك كل أزرار "أضف للسلة" اللي داخل كروت المنتجات
 const addButtons = document.querySelectorAll(".product button");
-const cartTotal = document.getElementById("cart-total");
-const cartList = document.getElementById("cart-list");
-let total = 0;
-let count = 0;
-let discount = 0;
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-function renderCart() {
-  cartList.innerHTML = "";
-  count = 0;
-  total = 0;
 
-  cart.forEach(function (item) {
-    cartList.innerHTML += `<li>
-      ${item.name} × ${item.qty} = ${item.price * item.qty} ريال
-      <button class="plus" data-id="${item.id}">+</button>
-      <button class="minus" data-id="${item.id}">−</button>
-    </li>`;
-
-    count += item.qty;
-    total += item.price * item.qty;
-  });
-
-  cartCount.textContent = "🛒" + count;
-  const finalTotal = total - total * discount;
-  cartTotal.textContent = finalTotal + " ريال";
-  localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("discount", discount);
-  const checkoutBtn = document.getElementById("checkout-btn");
-if (cart.length === 0) {
-  checkoutBtn.style.display = "none";
-} else {
-  checkoutBtn.style.display = "inline-block";
-}
-}
 addButtons.forEach(function (btn) {
   btn.addEventListener("click", function () {
+
+    // 1) نعرف وش المنتج اللي انضغط زره (من data-id)
     const id = Number(btn.dataset.id);
     const product = products.find(function (p) {
       return p.id === id;
     });
+
+    // 2) نقرا السلة من الدفتر (لو فاضي نبدأ بسلة فاضية [])
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // 3) نشوف: هل المنتج موجود بالسلة من قبل؟
     const item = cart.find(function (c) {
       return c.id === id;
     });
 
     if (item) {
+      // موجود: نزيد كميته بس
       item.qty += 1;
     } else {
+      // جديد: نضيفه بكمية 1
       cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
     }
 
-    renderCart();
+    // 4) نحفظ السلة بالدفتر، وبعدها نحدّث الحقيبة (الترتيب مهم: نكتب أول بعدين نقرا)
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateBag(); // موجودة في theme.js
   });
-});
-
-cartList.addEventListener("click", function (e) {
-  const id = Number(e.target.dataset.id);
-  const item = cart.find(function (c) {
-    return c.id === id;
-  });
-  if (!item) return;
-
-  if (e.target.classList.contains("plus")) {
-    item.qty += 1;
-  }
-  if (e.target.classList.contains("minus")) {
-    item.qty -= 1;
-  }
-
-  if (item.qty === 0) {
-    cart = cart.filter(function (c) {
-      return c.id !== id;
-    });
-  }
-  renderCart();
-});
-renderCart();
-
-
-// ===== كود الخصم =====
-const couponInput = document.getElementById("coupon-input");
-const couponBtn = document.getElementById("coupon-btn");
-const couponMsg = document.getElementById("coupon-msg");
-
-couponBtn.addEventListener("click", function () {
-  const code = couponInput.value.trim().toUpperCase();
-
-  if (code === "SULTAN10") {
-    discount = 0.1;
-    couponMsg.textContent = "تم تطبيق خصم 10% ✅";
-  } else {
-    discount = 0;
-    couponMsg.textContent = "الكود غير صحيح ❌";
-  }
-    renderCart();
-});
-
-// ===== البحث =====
-const searchInput = document.getElementById("search");
-
-searchInput.addEventListener("input", function () {
-  const word = searchInput.value;
-
-  productCarts.forEach(function (card) {
-    const name = card.querySelector("h3").textContent;
-
-    if (name.includes(word)) {
-      card.hidden = false;
-    } else {
-      card.hidden = true;
-    }
-  });
-});
-
-
-// ===== الترتيب =====
-const sortSelect = document.getElementById("sort");
-
-sortSelect.addEventListener("change", function () {
-  const choice = sortSelect.value;
-  const cards = Array.from(productCarts);
-
-  cards.sort(function (a, b) {
-    const priceA = Number(a.querySelector("button").dataset.price);
-    const priceB = Number(b.querySelector("button").dataset.price);
-    const idA = Number(a.querySelector("button").dataset.id);
-    const idB = Number(b.querySelector("button").dataset.id);
-
-    if (choice === "low") return priceA - priceB;
-    if (choice === "high") return priceB - priceA;
-    return idA - idB;
-  });
-
-  cards.forEach(function (card) {
-    productList.appendChild(card);
-  });
-});
-
-
-window.addEventListener("pageshow", function (event) {
-  if (event.persisted) location.reload();
 });

@@ -1,19 +1,4 @@
 
-function updateHeader() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  let count = 0;
-  let total = 0;
-
-  cart.forEach(function (item) {
-    count += item.qty;
-    total += item.price * item.qty;
-  });
-
-  document.getElementById("cart-count").textContent = "🛒" + count;
-  document.getElementById("cart-total").textContent = total + " ريال";
-}
-
-updateHeader();
 console.log("صفحة المنتج شغالة ✅");
 const params = new URLSearchParams(location.search);
 const id = Number(params.get("id"));
@@ -43,7 +28,7 @@ if (product) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
     this.textContent = "انضاف ✅";
-    updateHeader();
+      updateBag();
   });
   ;
 }

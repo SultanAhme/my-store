@@ -24,15 +24,28 @@
     </nav>
     <div class="header-action">
       <button id="theme-btn" aria-label="تبديل الوضع"><span class="theme-icon"></span></button>
-      <span id="cart-count">🛒 0</span>
-      <span id="cart-total">0 ريال</span>
-      <a href="checkout.html" id="checkout-btn">إتمام الطلب</a>
+      <div class="bag">
+        <button id="bag-btn" aria-label="السلة">
+          <span class="bag-icon"></span>
+          <span id="cart-count">0</span>
+        </button>
+        <div class="bag-panel" id="bag-panel">
+          <h4>سلتك</h4>
+          <ul id="bag-list"></ul>
+          <p class="bag-total">المجموع: <span id="cart-total">0 ريال</span></p>
+          <a href="checkout.html" class="bag-checkout">إتمام الطلب</a>
+          <div class="bag-account">
+            <a href="#">تسجيل الدخول</a>
+            <a href="#">الدخول كزائر</a>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
 
   <div id="product-details"></div>
-    <footer>
+  <footer>
     <div class="footer-grid">
       <div>
         <h3>حلول للتقنية</h3>
@@ -43,6 +56,7 @@
         <a href="index.html">الرئيسية</a>
         <a href="index.html#products">المنتجات</a>
         <a href="checkout.html">السلة</a>
+        <a href="#">🌐 English</a>
       </div>
       <div>
         <h4>تواصل معنا</h4>

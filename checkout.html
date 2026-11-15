@@ -2,16 +2,16 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <title>إتمام الطلب</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>إتمام الطلب</title>
 </head>
 
 <body>
-      <header>
+  <header>
     <a href="index.html" class="logo">
       <span class="logo-icon">ح</span>
       <span class="logo-text">حلول<small>للتقنية</small></span>
@@ -22,6 +22,22 @@
     </nav>
     <div class="header-action">
       <button id="theme-btn" aria-label="تبديل الوضع"><span class="theme-icon"></span></button>
+      <div class="bag">
+        <button id="bag-btn" aria-label="السلة">
+          <span class="bag-icon"></span>
+          <span id="cart-count">0</span>
+        </button>
+        <div class="bag-panel" id="bag-panel">
+          <h4>سلتك</h4>
+          <ul id="bag-list"></ul>
+          <p class="bag-total">المجموع: <span id="cart-total">0 ريال</span></p>
+          <a href="checkout.html" class="bag-checkout">إتمام الطلب</a>
+          <div class="bag-account">
+            <a href="#">تسجيل الدخول</a>
+            <a href="#">الدخول كزائر</a>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -33,22 +49,22 @@
     <p id="order-total"></p>
 
     <form id="checkout-form">
-        <label>الاسم</label>
-        <input type="text" id="name">
-            <span class="error" id="name-error"></span>
-        <label>الجوال</label>
-        <input type="tel" id="phone">
-            <span class="error" id="phone-error"></span>
-        <label>المدينة</label>
-        <input type="text" id="city">
-            <span class="error" id="city-error"></span>
-        <label>العنوان</label>
-        <input type="text" id="address">
-            <span class="error" id="address-error"></span>
-        <button type="submit">تأكيد الطلب</button>
+      <label>الاسم</label>
+      <input type="text" id="name">
+      <span class="error" id="name-error"></span>
+      <label>الجوال</label>
+      <input type="tel" id="phone">
+      <span class="error" id="phone-error"></span>
+      <label>المدينة</label>
+      <input type="text" id="city">
+      <span class="error" id="city-error"></span>
+      <label>العنوان</label>
+      <input type="text" id="address">
+      <span class="error" id="address-error"></span>
+      <button type="submit">تأكيد الطلب</button>
     </form>
-    </main>
-    <footer>
+  </main>
+  <footer>
     <div class="footer-grid">
       <div>
         <h3>حلول للتقنية</h3>
@@ -59,6 +75,7 @@
         <a href="index.html">الرئيسية</a>
         <a href="index.html#products">المنتجات</a>
         <a href="checkout.html">السلة</a>
+        <a href="#">🌐 English</a>
       </div>
       <div>
         <h4>تواصل معنا</h4>
@@ -68,8 +85,8 @@
     </div>
     <p class="copy">© 2026 حلول للتقنية. جميع الحقوق محفوظة.</p>
   </footer>
-    <script src="theme.js"></script>
-    <script src="checkout.js"></script>
+  <script src="theme.js"></script>
+  <script src="checkout.js"></script>
 </body>
 
 </html>
