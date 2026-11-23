@@ -18,9 +18,9 @@
       <span class="logo-text">حلول<small>للتقنية</small></span>
     </a>
     <nav>
-      <a href="#">الرئيسية</a>
-      <a href="#products">المنتجات</a>
-      <a href="#">تواصل أجتماعي</a>
+    <a href="#" data-i18n="home">الرئيسية</a>
+    <a href="#products" data-i18n="products">المنتجات</a>
+    <a href="#" data-i18n="social">تواصل اجتماعي</a>
     </nav>
     <div class="header-action">
       <button id="theme-btn" aria-label="تبديل الوضع"><span class="theme-icon"></span></button>
@@ -30,15 +30,15 @@
           <span id="cart-count">0</span>
         </button>
         <div class="bag-panel" id="bag-panel">
-          <h4>سلتك</h4>
+          <h4 data-i18n="yourBag">سلتك</h4>
           <ul id="bag-list"></ul>
           <div class="bag-coupon">
-            <input type="text" id="coupon-input" placeholder="كود خصم">
-            <button id="coupon-btn">تطبيق</button>
+            <input type="text" id="coupon-input" data-i18n-placeholder="couponPh" placeholder="كود خصم">
+            <button id="coupon-btn" data-i18n="apply">تطبيق</button>
             <p id="coupon-msg"></p>
           </div>
-          <p class="bag-total">المجموع: <span id="cart-total">0 ريال</span></p>
-          <a href="checkout.html" class="bag-checkout">إتمام الطلب</a>
+          <p class="bag-total"><span data-i18n="totalLabel">المجموع:</span> <span id="cart-total">0 ريال</span></p>
+          <a href="checkout.html" class="bag-checkout" data-i18n="checkout">إتمام الطلب</a>
           <div class="bag-account">
             <a href="#">تسجيل الدخول</a>
             <a href="#">الدخول كزائر</a>
@@ -49,27 +49,27 @@
 
   </header>
   <section class="hero">
-    <h2>كل اللي تحتاجه من التقنية، بمكان واحد</h2>
-    <p>جوالات، سماعات، وشواحن أصلية بأسعار تنافسية وتوصيل سريع 🚚</p>
-    <a href="#products" class="hero-btn">تسوّق الحين</a>
+    <h2 data-i18n="heroTitle">كل اللي تحتاجه من التقنية، بمكان واحد</h2>
+    <p data-i18n="heroText">جوالات، سماعات، وشواحن أصلية بأسعار تنافسية وتوصيل سريع 🚚</p>
+    <a href="#products" class="hero-btn" data-i18n="shopNow">تسوّق الحين</a>
   </section>
   <main id="products">
-    <h2>منتجاتنا</h2>
+    <h2 data-i18n="ourProducts">منتجاتنا</h2>
     <div class="toolbar">
-      <input type="text" id="search" placeholder="ابحث عن المنتج...🔍">
+      <input type="text" id="search" data-i18n-placeholder="searchPh" placeholder="ابحث عن المنتج...🔍">
 
       <select id="sort">
-        <option value="default">الترتيب الافتراضي</option>
-        <option value="low">السعر: من الأقل للأعلى</option>
-        <option value="high">السعر: من الأعلى للأقل</option>
+        <option value="default" data-i18n="sortDefault">الترتيب الافتراضي</option>
+        <option value="low" data-i18n="sortLow">السعر: من الأقل للأعلى</option>
+        <option value="high" data-i18n="sortHigh">السعر: من الأعلى للأقل</option>
       </select>
 
       <div class="filter">
-        <button class="filter-btn active" data-filter="all">الكل</button>
-        <button class="filter-btn" data-filter="phones">جوالات</button>
-        <button class="filter-btn" data-filter="audio">سماعات</button>
-        <button class="filter-btn" data-filter="chargers">شواحن</button>
-        <button class="filter-btn" data-filter="accessories">إكسسوارات</button>
+        <button class="filter-btn active" data-filter="all" data-i18n="all">الكل</button>
+        <button class="filter-btn" data-filter="phones" data-i18n="phones">جوالات</button>
+        <button class="filter-btn" data-filter="audio" data-i18n="audio">سماعات</button>
+        <button class="filter-btn" data-filter="chargers" data-i18n="chargers">شواحن</button>
+        <button class="filter-btn" data-filter="accessories" data-i18n="accessories">إكسسوارات</button>
       </div>
 
     </div>
@@ -82,24 +82,25 @@
   <footer>
     <div class="footer-grid">
       <div>
-        <h3>حلول للتقنية</h3>
-        <p>أفضل الأجهزة التقنية بأسعار تنافسية وضمان أصلي.</p>
+        <h3 data-i18n="brand">حلول للتقنية</h3>
+        <p data-i18n="footerDesc">أفضل الأجهزة التقنية بأسعار تنافسية وضمان أصلي.</p>
       </div>
       <div>
-        <h4>روابط</h4>
-        <a href="index.html">الرئيسية</a>
-        <a href="#products">المنتجات</a>
-        <a href="checkout.html">السلة</a>
-        <a href="#">🌐 English</a>
+        <h4 data-i18n="links">روابط</h4>
+        <a href="index.html" data-i18n="home">الرئيسية</a>
+        <a href="#products" data-i18n="products">المنتجات</a>
+        <a href="checkout.html" data-i18n="cart">السلة</a>
+        <a href="#" id="lang-link">🌐 English</a>
       </div>
       <div>
-        <h4>تواصل معنا</h4>
+        <h4 data-i18n="contact">تواصل معنا</h4>
         <p>📧 info@mystore.sa</p>
         <p>📞 920000000</p>
       </div>
     </div>
-    <p class="copy">© 2026 حلول للتقنية. جميع الحقوق محفوظة.</p>
+    <p class="copy" data-i18n="copyright">© 2026 حلول للتقنية. جميع الحقوق محفوظة.</p>
   </footer>
+  <script src="lang.js"></script>
   <script src="theme.js"></script>
   <script src="products.js"></script>
   <script src="script.js"></script>

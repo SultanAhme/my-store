@@ -78,12 +78,12 @@ function updateBag() {
 
   // السلة فاضية؟ نكتب رسالة بدل قائمة فاضية
   if (cart.length === 0) {
-    bagList.innerHTML = "<li>سلتك فاضية</li>";
+    bagList.innerHTML = "<li>" + t("emptyBag") + "</li>";
   }
 
   // نحدّث الرقم على الأيقونة والمجموع بعد الخصم
   document.getElementById("cart-count").textContent = count;
-  document.getElementById("cart-total").textContent = (total - total * discount) + " ريال";
+  document.getElementById("cart-total").textContent = (total - total * discount) + " " + t("currency");
 }
 
 // نرسم الحقيبة أول ما تفتح أي صفحة
@@ -146,12 +146,12 @@ if (couponBtn) {
       localStorage.setItem("discount", 0.1);
       // نحفظ الكود نفسه عشان نرسله للسيرفر وقت الدفع، والسيرفر يتحقق منه
       localStorage.setItem("coupon", code);
-      couponMsg.textContent = "تم تطبيق خصم 10% ✅";
+      couponMsg.textContent = t("couponOk");
     } else {
       localStorage.setItem("discount", 0);
       // الكود غلط: نمسح أي كود قديم محفوظ
       localStorage.removeItem("coupon");
-      couponMsg.textContent = "الكود غير صحيح ❌";
+      couponMsg.textContent = t("couponBad");
     }
 
     updateBag(); // نحدّث المجموع بالخصم الجديد
