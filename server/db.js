@@ -48,9 +48,50 @@ db.exec(`
   );
 `);
 
-// 4) نطلّع القاعدة عشان server.js يقدر يستخدمها
+// 4) جدول المنتجات: كل سطر = منتج واحد
+// ليش ننقلها للقاعدة؟ عشان السيرفر يعرف السعر الحقيقي ويحسب المجموع بنفسه
+// وما يصدّق السعر اللي يجيه من المتصفح (لأن أي أحد يقدر يغيره من الكونسول)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY,     -- رقم المنتج (نفس الأرقام اللي في products.js)
+    name TEXT NOT NULL,         -- اسم المنتج
+    price REAL NOT NULL,        -- السعر الحقيقي، وهذا اللي يعتمد عليه السيرفر
+    category TEXT NOT NULL,     -- القسم: audio, phones, chargers, accessories
+    image TEXT NOT NULL,        -- رابط الصورة
+    desc TEXT                   -- الوصف
+  );
+`);
+
+// 5) نعبّي الجدول بالمنتجات أول مرة بس
+// COUNT(*): يحسب كم سطر في الجدول
+// لو صفر (الجدول فاضي) نضيف المنتجات، ولو فيه منتجات ما نكررها
+const count = db.prepare('SELECT COUNT(*) AS n FROM products').get().n;
+if (count === 0) {
+  // نفس المنتجات اللي في products.js
+  const startProducts = [
+    { id: 1, name: "سماعة لاسلكية", price: 199, category: "audio", image: "https://picsum.photos/300/200?1", desc: "صوت نقي وبطارية تدوم ٢٠ ساعة." },
+    { id: 2, name: "ايفون 17 برو ماكس", price: 3500, category: "phones", image: "https://picsum.photos/300/200?2", desc: "يتوفر كاش او اقساط" },
+    { id: 3, name: "شاحن تايب سي 30واط", price: 95, category: "chargers", image: "https://picsum.photos/300/200?3", desc: "شاحن من شركة ابل" },
+    { id: 4, name: "بطارية ايفون", price: 15, category: "accessories", image: "https://picsum.photos/300/200?4", desc: "بطارية" },
+    { id: 5, name: "سوارة من شاومي", price: 199, category: "accessories", image: "https://picsum.photos/300/200?5", desc: "سوارة ذكية" },
+    { id: 6, name: "كفر جوال من سامسنج", price: 250, category: "accessories", image: "https://picsum.photos/300/200?6", desc: "كفر" }
+  ];
+
+  // نجهز أمر الإضافة مرة وحدة، والعلامات ? تنعبى بالقيم (حماية من SQL Injection)
+  const insert = db.prepare(
+    'INSERT INTO products (id, name, price, category, image, desc) VALUES (?, ?, ?, ?, ?, ?)'
+  );
+  // نمر على كل منتج ونضيفه
+  startProducts.forEach(function (p) {
+    insert.run(p.id, p.name, p.price, p.category, p.image, p.desc);
+  });
+  console.log('انضافت المنتجات للقاعدة 📦');
+}
+
+
+// 5) نطلّع القاعدة عشان server.js يقدر يستخدمها
 // مثل لما تعير الدفتر لزميلك: هذا هو، استخدمه
 module.exports = db;
 
-// 5) رسالة تأكيد بالترمنال
+// 6) رسالة تأكيد بالترمنال
 console.log('قاعدة البيانات جاهزة ✅');

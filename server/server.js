@@ -207,12 +207,14 @@ app.post('/api/logout', (req, res) => {
 // ===============================================
 // 13.6) API حفظ طلب جديد
 // ===============================================
-// المتصفح يرسل: { name, phone, city, address, items, total }
+// المتصفح يرسل: { name, phone, city, address, items, coupon }
 // items: منتجات السلة، كل منتج فيه { id, name, price, qty }
 // يشتغل للزبون المسجل وللزائر: لو فيه كرت نربط الطلب بصاحبه، ولو ما فيه نحفظه بدون صاحب
 app.post('/api/orders', (req, res) => {
   // 1) ناخذ بيانات الطلب من المتصفح
-  const { name, phone, city, address, items, total } = req.body;
+  // لاحظ: ما عاد ناخذ total من المتصفح، السيرفر بيحسبه بنفسه
+  // coupon: كود الخصم لو الزبون كتبه (نتحقق منه هنا بالسيرفر)
+  const { name, phone, city, address, items, coupon } = req.body;
 
   // 2) نتأكد من البيانات (السيرفر ما يثق بأي شي يوصله)
   if (!name || !phone || !city || !address) {
@@ -223,24 +225,54 @@ app.post('/api/orders', (req, res) => {
     return res.status(400).json({ error: 'السلة فاضية' });
   }
 
-  // 3) مين صاحب الطلب؟ نستخدم دالة getUser اللي سويناها قبل
+  // 3) نحسب المجموع من الأسعار الحقيقية اللي بالقاعدة (مثل الكاشير)
+  // نجهز سؤال: "عطني المنتج اللي رقمه كذا"
+  const findProduct = db.prepare('SELECT id, name, price FROM products WHERE id = ?');
+  let total = 0;
+  // cleanItems: نسخة نظيفة من السلة فيها الأسعار الصحيحة، وهي اللي نحفظها
+  const cleanItems = [];
+
+  for (const item of items) {
+    // 3.1) ندور المنتج بالقاعدة برقمه
+    const product = findProduct.get(item.id);
+    if (!product) {
+      return res.status(400).json({ error: 'فيه منتج بالسلة مو موجود' });
+    }
+    // 3.2) الكمية لازم تكون رقم صحيح من 1 وفوق (ما نقبل 0 أو سالب أو كسور)
+    const qty = Number(item.qty);
+    if (!Number.isInteger(qty) || qty < 1) {
+      return res.status(400).json({ error: 'كمية غير صحيحة' });
+    }
+    // 3.3) نجمع: السعر من القاعدة × الكمية
+    total += product.price * qty;
+    cleanItems.push({ id: product.id, name: product.name, price: product.price, qty: qty });
+  }
+
+  // 3.4) الخصم: نتحقق من الكود بالسيرفر، مو نصدق المتصفح
+  if (typeof coupon === 'string' && coupon.trim().toUpperCase() === 'SULTAN10') {
+    total = total - total * 0.1;
+  }
+
+  // 4) مين صاحب الطلب؟ نستخدم دالة getUser اللي سويناها قبل
   // لو مسجل دخول نحط رقمه، ولو زائر نحط null (يعني "فاضي" بالقاعدة)
   const user = getUser(req);
   const userId = user ? user.id : null;
 
-  // 4) نحفظ الطلب بجدول orders
-  // items قائمة، والقاعدة ما تخزن قوائم مباشرة، فنحولها لنص JSON بـ JSON.stringify
+  // 5) نحفظ الطلب بجدول orders
+  // نحفظ cleanItems (الأسعار الصحيحة) بدل items اللي جت من المتصفح
   const result = db.prepare(`
     INSERT INTO orders (user_id, name, phone, city, address, items, total)
     VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(userId, name, phone, city, address, JSON.stringify(items), total);
+  `).run(userId, name, phone, city, address, JSON.stringify(cleanItems), total);
 
-  // 5) نرجع رقم الطلب الحقيقي من القاعدة (بدل الرقم العشوائي اللي كان بالفرونت)
+  // 6) نرجع رقم الطلب والمجموع الحقيقي عشان صفحة النجاح تعرضه
   res.status(201).json({
     message: 'تم استلام طلبك ✅',
-    orderId: Number(result.lastInsertRowid)
+    orderId: Number(result.lastInsertRowid),
+    total: total
   });
 });
+
 // ===============================================
 // 13.7) API طلباتي: يرجع طلبات الزبون المسجل بس
 // ===============================================
@@ -274,6 +306,15 @@ app.get('/api/my-orders', (req, res) => {
 
   res.json({ orders: result });
 });
+
+// 9.5) شباك المنتجات: يرجع كل المنتجات من القاعدة
+// أي أحد يقدر يشوفها (ما يحتاج تسجيل دخول) لأنها مثل واجهة المحل
+app.get('/api/products', (req, res) => {
+  // SELECT *: هات كل الخانات، و all: كل السطور
+  const products = db.prepare('SELECT * FROM products').all();
+  res.json({ products: products });
+});
+
 // 10) نشغّل السيرفر ونخليه ينتظر الطلبات على الباب 3000
 app.listen(PORT, () => {
   console.log('السيرفر شغال على http://localhost:' + PORT);
