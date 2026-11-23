@@ -144,9 +144,13 @@ if (couponBtn) {
 
     if (code === "SULTAN10") {
       localStorage.setItem("discount", 0.1);
+      // نحفظ الكود نفسه عشان نرسله للسيرفر وقت الدفع، والسيرفر يتحقق منه
+      localStorage.setItem("coupon", code);
       couponMsg.textContent = "تم تطبيق خصم 10% ✅";
     } else {
       localStorage.setItem("discount", 0);
+      // الكود غلط: نمسح أي كود قديم محفوظ
+      localStorage.removeItem("coupon");
       couponMsg.textContent = "الكود غير صحيح ❌";
     }
 
@@ -174,6 +178,7 @@ function updateAccount() {
     // 5.3) الزبون مسجل دخول: نحط الترحيب ورابط الخروج
     box.innerHTML = `
       <p class="bag-hello"></p>
+      <a href="orders.html">📦 طلباتي</a>
       <a href="#" id="logout-link">تسجيل الخروج</a>
     `;
     // نحط الاسم بـ textContent مو داخل innerHTML

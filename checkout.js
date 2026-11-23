@@ -87,7 +87,8 @@ form.addEventListener("submit", async function (event) {
                 city: city,
                 address: address,
                 items: cart,
-                total: total
+                // نرسل كود الخصم (لو موجود) والسيرفر يحسب المجموع بنفسه
+                coupon: localStorage.getItem("coupon")
             })
         });
         const data = await res.json();
@@ -106,14 +107,14 @@ form.addEventListener("submit", async function (event) {
             phone: phone,
             city: city,
             address: address,
-            total: total
+             // المجموع الحقيقي من السيرفر، مو اللي حسبه المتصفح
+            total: data.total
         };
         localStorage.setItem("lastOrder", JSON.stringify(order));
 
         // 6) نفضّي السلة والخصم لأن الطلب خلص
         localStorage.removeItem("cart");
-        localStorage.removeItem("discount");
-
+        localStorage.removeItem("coupon");
         // 7) نروح لصفحة النجاح
         window.location.href = "success.html";
 
