@@ -241,6 +241,39 @@ app.post('/api/orders', (req, res) => {
     orderId: Number(result.lastInsertRowid)
   });
 });
+// ===============================================
+// 13.7) API طلباتي: يرجع طلبات الزبون المسجل بس
+// ===============================================
+// الزبون ما يرسل رقمه، السيرفر يعرفه من الكرت
+// ليش؟ لو خلينا الزبون يرسل رقمه، أي أحد يقدر يكتب رقم غيره ويشوف طلباته!
+app.get('/api/my-orders', (req, res) => {
+  // 1) مين صاحب الكرت؟ ولو ما فيه كرت نرفض
+  const user = getUser(req);
+  if (!user) {
+    return res.status(401).json({ error: 'سجّل دخول عشان تشوف طلباتك' });
+  }
+
+  // 2) نجيب طلباته من القاعدة
+  // WHERE user_id = ?: طلبات هالزبون بس
+  // ORDER BY id DESC: الأحدث أول (DESC يعني تنازلي: من الكبير للصغير)
+  // all: يرجع كل السطور اللي تطابق (get كان يرجع سطر واحد بس)
+  const orders = db.prepare(`
+    SELECT id, city, items, total, created_at
+    FROM orders
+    WHERE user_id = ?
+    ORDER BY id DESC
+  `).all(user.id);
+
+  // 3) items محفوظة كنص JSON، فنرجعها لقائمة قبل ما نرسلها
+  // map: تمر على كل طلب وترجع نسخة معدلة منه
+  // ...order: تنسخ كل خانات الطلب كما هي، وبعدها نغير items بس
+  const result = orders.map(order => ({
+    ...order,
+    items: JSON.parse(order.items)
+  }));
+
+  res.json({ orders: result });
+});
 // 10) نشغّل السيرفر ونخليه ينتظر الطلبات على الباب 3000
 app.listen(PORT, () => {
   console.log('السيرفر شغال على http://localhost:' + PORT);
